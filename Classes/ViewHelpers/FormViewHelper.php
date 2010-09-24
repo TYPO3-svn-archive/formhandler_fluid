@@ -25,6 +25,42 @@
  */
 class Tx_FormhandlerFluid_ViewHelpers_FormViewHelper extends Tx_Fluid_ViewHelpers_FormViewHelper
 {
+	/**
+	 * @var Whether values should be rendered without elements
+	 */
+	protected $readOnly;
+	
+	/**
+	 * Whether values should be rendered without elements
+	 * @return boolean
+	 */
+	public function isReadOnly()
+	{
+		return $this->readOnly;
+	}
+	
+	/**
+	 * Render the form.
+	 *
+	 * @param string $action Target action
+	 * @param array $arguments Arguments
+	 * @param string $controller Target controller
+	 * @param string $extensionName Target Extension Name (without "tx_" prefix and no underscores). If NULL the current extension name is used
+	 * @param string $pluginName Target plugin. If empty, the current plugin name is used
+	 * @param integer $pageUid Target page uid
+	 * @param mixed $object Object to use for the form. Use in conjunction with the "property" attribute on the sub tags
+	 * @param integer $pageType Target page type
+	 * @param string $fieldNamePrefix Prefix that will be added to all field names within this form. If not set the prefix will be tx_yourExtension_plugin
+	 * @param string $actionUri can be used to overwrite the "action" attribute of the form tag
+	 * @param boolean $readOnly When set no form-elements will be rendered but only the values or selected/checked labels
+	 * @return string rendered form
+	 */
+	public function render($action = NULL, array $arguments = array(), $controller = NULL, $extensionName = NULL, $pluginName = NULL, $pageUid = NULL, $object = NULL, $pageType = 0, $fieldNamePrefix = NULL, $actionUri = NULL, $readOnly = false)
+	{
+		$this->readOnly = $readOnly;
+		return parent::render($action, $arguments, $controller, $extensionName, $pluginName, $pageUid, $object, $pageType, $fieldNamePrefix, $actionUri);
+	}
+	
 	/* (non-PHPdoc)
 	 * @see typo3/sysext/fluid/Classes/ViewHelpers/Tx_Fluid_ViewHelpers_FormViewHelper#renderHiddenReferrerFields()
 	 */

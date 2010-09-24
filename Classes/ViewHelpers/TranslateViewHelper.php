@@ -20,7 +20,7 @@
  * 
  * @author	Christian Opitz <co@netzelf.de>
  * @package	Tx_Formhandler
- * @subpackage	View_Fluid_ViewHelper
+ * @subpackage	ViewHelpers
  */
 class Tx_FormhandlerFluid_ViewHelpers_TranslateViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper
 {

@@ -28,5 +28,25 @@
  */
 class Tx_FormhandlerFluid_ViewHelpers_Form_SelectViewHelper extends Tx_Fluid_ViewHelpers_Form_SelectViewHelper
 {
-
+	protected $exclude = array();
+	
+	/** 
+	 * @param string $exclude Exclude those values from being selected
+	 */
+	public function render($exclude = null)
+	{
+		if ($exclude !== null) {
+			$this->exclude = t3lib_div::trimExplode(',', $exclude);
+		}
+		
+		return parent::render();
+	}
+	
+	/* (non-PHPdoc)
+	 * @see typo3/sysext/fluid/Classes/ViewHelpers/Form/Tx_Fluid_ViewHelpers_Form_SelectViewHelper#isSelected()
+	 */
+	protected function isSelected($value)
+	{
+		return in_array($value, $this->exclude) ? false : parent::isSelected($value);
+	}
 }
