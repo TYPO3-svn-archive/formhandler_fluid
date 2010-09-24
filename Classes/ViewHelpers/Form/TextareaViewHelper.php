@@ -20,53 +20,13 @@
  *                                                                        */
 
 /**
- * This helper renders the submit buttons that are needed to tell formhandler
- * which action to do next.
- *
+ * @see Tx_Fluid_ViewHelpers_Form_TextareaViewHelper
  * @version $Id$
  * @package	Tx_FormhandlerFluid
  * @subpackage View_Helpers
  * @author	Christian Opitz <co@netzelf.de>
  */
-class Tx_FormhandlerFluid_ViewHelpers_Form_SubmitViewHelper extends Tx_Fluid_ViewHelpers_Form_SubmitViewHelper
+class Tx_FormhandlerFluid_ViewHelpers_Form_TextareaViewHelper extends Tx_Fluid_ViewHelpers_Form_TextareaViewHelper
 {
-	/**
-	 * Renders the submit button.
-	 *
-	 * @return string
-	 */
-	public function render()
-	{
-		$this->tag->addAttribute('type', 'submit');
-		$this->tag->addAttribute('value', $this->getValue());
-		$this->tag->addAttribute('name', $this->getName());
 
-		return $this->tag->render();
-	}
-	
-	/**
-	 * Finds the name out of the action-argument of this helper
-	 * 
-	 * @return string The name for the desired action 
-	 */
-	protected function getName()
-	{
-		$name = array('step');
-		switch ($this->arguments['action'])
-		{
-			case 'reload':
-				$name['step']	= Tx_Formhandler_Session::get('currentStep');
-				$name['action']	= 'reload';
-				break;
-			case 'prev':
-				$name['step']	= Tx_Formhandler_Session::get('currentStep') - 1;
-				$name['action']	= 'prev';
-				break;
-			case 'next':
-			default:
-				$name['step']	= Tx_Formhandler_Session::get('currentStep') + 1;
-				$name['action']	= 'next';
-		}		
-		return $this->prefixFieldName(implode('-', $name));
-	}
 }
