@@ -46,7 +46,7 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
 	 */
 	protected function initializeView()
 	{
-		$this->view = t3lib_div::makeInstance('Tx_Fluid_View_TemplateView');
+		$this->view = t3lib_div::makeInstance('Tx_FormhandlerFluid_View_TemplateView');
 		$this->controllerContext = Tx_FormhandlerFluid_Controller_Form::getControllerContext();
 		$this->view->setControllerContext($this->controllerContext);
 		
