@@ -20,44 +20,34 @@
  *                                                                        */
 
 /**
- * Custom view to set the parser-interceptor
+ * Interceptor to do some custom actions on each form element
  * 
  * @version $Id$
  * @package	Tx_FormhandlerFluid
  * @subpackage Core
  * @author	Christian Opitz <co@netzelf.de>
  */
-class Tx_FormhandlerFluid_View_TemplateView extends Tx_Fluid_View_TemplateView
-{
-	protected static $parserCache = array();
-	
+class Tx_FormhandlerFluid_Finisher_AutoDB extends Tx_Formhandler_Finisher_AutoDB
+{	
 	/**
-	 * Build parser configuration
-	 *
-	 * @return Tx_Fluid_Core_Parser_Configuration
-	 * @author Karsten Dambekalns <karsten@typo3.org>
+	 * Retrieve the fieldnames registered by the fluid form (those include
+	 * the prefix if set)
+	 * 
+	 * @return array
 	 */
-	protected function buildParserConfiguration()
+	protected function getFormFieldNames()
 	{
-		$this->interceptor = $this->objectManager->get('Tx_FormhandlerFluid_Core_Parser_Interceptor');		
-		$parserConfiguration = parent::buildParserConfiguration();
-		$parserConfiguration->addInterceptor($this->interceptor);
-		return $parserConfiguration;
-	}
-	
-	/**
-	 * Parse the given template, cache and return it.
-	 *
-	 * @param string $templatePathAndFilename absolute filename of the template to be parsed
-	 * @return Tx_Fluid_Core_Parser_ParsedTemplateInterface the parsed template tree
-	 * @throws Tx_Fluid_View_Exception_InvalidTemplateResourceException
-	 */
-	protected function parseTemplate($templatePathAndFilename)
-	{
-		if (!self::$parserCache[$templatePathAndFilename])
-		{
-			self::$parserCache[$templatePathAndFilename] = parent::parseTemplate($templatePathAndFilename);
+		$arguments = Tx_FormhandlerFluid_Controller_Form::getControllerContext()->getArguments();
+		
+		/* @var $view Tx_FormhandlerFluid_View_Form */
+		$view = $this->componentManager->getComponent('Tx_FormhandlerFluid_View_Form');
+		$forms = $arguments->getArgument('stepForms')->getValue();
+		
+		foreach ($forms as $form) {
+			$view->setForm($form);
+			$view->render(array(),array());
 		}
-		return self::$parserCache[$templatePathAndFilename];
+		
+		return $arguments->getArgument('fieldNames')->getValue();
 	}
 }

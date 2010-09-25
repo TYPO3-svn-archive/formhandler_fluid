@@ -67,9 +67,19 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
     		$uriBuilder->setRequest($request);
     		$uriBuilder->setNoCache(true);
     		
+    		/* @var $arguments Tx_Extbase_MVC_Controller_Arguments */
+    		$arguments = t3lib_div::makeInstance('Tx_Extbase_MVC_Controller_Arguments');
+    		$arguments->addArgument(
+    			t3lib_div::makeInstance('Tx_Extbase_MVC_Controller_Argument', 'fieldNames', 'Array')
+    		);
+    		$arguments->addArgument(
+    			t3lib_div::makeInstance('Tx_Extbase_MVC_Controller_Argument', 'stepForms', 'Array')
+    		);
+    		
     		self::$controllerContext = t3lib_div::makeInstance('Tx_Extbase_MVC_Controller_ControllerContext');
     		self::$controllerContext->setRequest($request);
     		self::$controllerContext->setUriBuilder($uriBuilder);
+    		self::$controllerContext->setArguments($arguments);
 		}
 		
 		return self::$controllerContext;
@@ -77,7 +87,26 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 	
 	protected function getStepInformation()
 	{
-		parent::getStepInformation();
+		$this->findCurrentStep();
+		
+		$this->lastStep = Tx_Formhandler_Session::get('currentStep');
+		if(!$this->lastStep) {
+			$this->lastStep = 1;
+		}
+		
+		if (!$this->settings['steps'] && $this->settings['form'])
+		{
+			$this->settings['steps'] = $this->settings['form'];
+		}
+		if ($this->settings['steps']) {
+			$steps = t3lib_div::trimExplode(',', $this->settings['steps']);
+		}else{
+			$steps = array(0 => null);
+		}
+		self::getControllerContext()->getArguments()->getArgument('stepForms')->setValue($steps);
+		$this->totalSteps = count($steps);
+		
+		Tx_Formhandler_StaticFuncs::debugMessage('total_steps', $this->totalSteps);
 	}
 	
 	public function getSettings()

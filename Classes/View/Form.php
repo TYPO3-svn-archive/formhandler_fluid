@@ -33,6 +33,8 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
 	 */
 	protected $view;
 	
+	protected $action;
+	
 	/**
 	 * @var Tx_Extbase_MVC_Controller_ControllerContext
 	 */
@@ -97,7 +99,12 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
 		$this->processErrors($errors);
 		$this->assignDefaults();
 		
-		return $this->view->render();
+		return $this->view->render($this->action);
+	}
+	
+	public function setForm($form)
+	{
+		$this->action = $form;
 	}
 	
 	/**

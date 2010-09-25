@@ -97,6 +97,20 @@ class Tx_FormhandlerFluid_ViewHelpers_FormViewHelper extends Tx_Fluid_ViewHelper
 			$this->viewHelperVariableContainer->add('Tx_Fluid_ViewHelpers_FormViewHelper', 'formName', '');
 		}
 	}
+	
+	/**
+	 * Propagate the registered fieldnames to the controller
+	 */
+	protected function removeFormFieldNamesFromViewHelperVariableContainer()
+	{
+		$this
+		->controllerContext
+		->getArguments()
+		->getArgument('fieldNames')
+		->setValue($this->viewHelperVariableContainer->get('Tx_Fluid_ViewHelpers_FormViewHelper', 'formFieldNames'));
+		
+		parent::removeFormFieldNamesFromViewHelperVariableContainer();
+	}
 
 	/**
 	 * Removes the "form name" from the ViewHelperVariableContainer.
