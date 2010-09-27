@@ -23,12 +23,7 @@
  * @subpackage	ViewHelpers
  */
 class Tx_FormhandlerFluid_ViewHelpers_TranslateViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper
-{
-	/**
-	 * @var array The latest language files from controller via view :/
-	 */
-	protected static $langFiles = array();
-	
+{	
 	/**
 	 * Translate a given key or use the tag body as default.
 	 *
@@ -40,7 +35,7 @@ class Tx_FormhandlerFluid_ViewHelpers_TranslateViewHelper extends Tx_Fluid_Core_
 	 */
 	public function render($key, $default = NULL, $htmlEscape = TRUE, array $arguments = NULL)
 	{
-		foreach(self::$langFiles as $langFile)
+		foreach((array) Tx_Formhandler_Globals::$langFiles as $langFile)
 		{
 			$temp = trim($GLOBALS['TSFE']->sL('LLL:' . $langFile . ':' . $key));
 			if(strlen($temp) > 0) {
@@ -56,17 +51,5 @@ class Tx_FormhandlerFluid_ViewHelpers_TranslateViewHelper extends Tx_Fluid_Core_
 		}
 		
 		return is_array($arguments) ? vsprintf($message, $arguments) : $message;
-	}
-	
-	/**
-	 * Set the current language files - called from Tx_FormhandlerFluid_View_Fluid
-	 * @see Tx_FormhandlerFluid_View_Fluid#setLangFiles()
-	 * 
-	 * @param array $langFiles
-	 * @todo Think about a better way to share language settings
-	 */
-	public static function setLangFiles(array $langFiles)
-	{
-		self::$langFiles = array_reverse($langFiles);
 	}
 }

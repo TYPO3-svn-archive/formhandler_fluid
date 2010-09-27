@@ -52,13 +52,24 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 			throw new Exception(__CLASS__.' needs an instance of Tx_FormhandlerFluid_View_Form as view!');
 		}
 		
-		// Override settings
-		foreach ((array) $this->settings['finishers.'] as $i => $finisher)
+		// Fetch lang files from templateRoot/Language if available
+		if (!count($this->langFiles) && $this->settings['templateRoot'])
 		{
-			if (in_array($finisher['class'], array('Tx_Formhandler_Finisher_Mail', 'Finisher_Mail')))
+			$path = Tx_Formhandler_StaticFuncs::resolvePath($this->settings['templateRoot']);
+			$path = rtrim($path, '\\/').'/'.trim($this->settings['languageDir']);
+			
+			$iterator = new DirectoryIterator($path);			
+			foreach ($iterator as $item)
 			{
-				$this->settings['finishers.'][$i]['config.']['view'] = 'Tx_FormhandlerFluid_View_Mail';
+				if ($item->isFile() && $item->isReadable()) {
+					$info = pathinfo($item->getPathname());
+					if ($info['extension'] == 'xml') {
+						$this->langFiles[] = str_replace('\\', '/', $item->getPathname());
+					}
+				}
 			}
+			$this->view->setLangFiles($this->langFiles);
+			Tx_Formhandler_Globals::$langFiles = $this->langFiles;
 		}
 	}
 	
@@ -138,6 +149,16 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 		if(empty($settings['view'])) {
 			$settings['view'] = 'Tx_FormhandlerFluid_View_Form';
 		}
+		
+		// Override settings
+		foreach ((array) $settings['finishers.'] as $i => $finisher)
+		{
+			if (in_array($finisher['class'], array('Tx_Formhandler_Finisher_Mail', 'Finisher_Mail')))
+			{
+				$settings['finishers.'][$i]['config.']['view'] = 'Tx_FormhandlerFluid_View_Mail';
+			}
+		}
+		
 		return $settings;
 	}
 	

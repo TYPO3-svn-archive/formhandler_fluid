@@ -56,13 +56,13 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
 		// Set the view paths (usually done in controller but this view is not
 		// alway called from an controller (f.i. Tx_FormhandlerFluid_View_FluidMail)
 		$this->settings = Tx_Formhandler_Globals::$settings;
-		if ($this->settings['templateRoot'])
+		if (!empty($this->settings['templateRoot']))
 		{
 			$path = Tx_Formhandler_StaticFuncs::resolvePath($this->settings['templateRoot']);
 			$path = rtrim($path, '\\/').'/';
-			$this->view->setTemplateRootPath($path.$this->getSetting('templatePath', 'Private/Templates'));
-			$this->view->setLayoutRootPath($path.$this->getSetting('layoutPath', 'Private/Layouts'));
-			$this->view->setPartialRootPath($path.$this->getSetting('partialsPath', 'Private/Templates'));
+			$this->view->setTemplateRootPath($path.trim($this->settings['templateDir'], '\\/'));
+			$this->view->setLayoutRootPath($path.trim($this->settings['layoutDir'], '\\/'));
+			$this->view->setPartialRootPath($path.trim($this->settings['partialDir'], '\\/'));
 		}
 		elseif ($this->settings['templateFile'])
 		{
@@ -192,15 +192,5 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
 		$this->fillFEUserMarkers($markers);
 		$this->fillFileMarkers($markers);
 		*/
-	}
-	
-	/**
-	 * Pass language files to the fh:translate-view-helper 
-	 * 
-	 * @param array $langFiles
-	 */
-	public function setLangFiles(array $langFiles)
-	{
-		Tx_FormhandlerFluid_ViewHelpers_TranslateViewHelper::setLangFiles($langFiles);
 	}
 }
