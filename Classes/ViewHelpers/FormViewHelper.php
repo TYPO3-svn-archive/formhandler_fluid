@@ -60,7 +60,7 @@ class Tx_FormhandlerFluid_ViewHelpers_FormViewHelper extends Tx_Fluid_ViewHelper
 		$this->readOnly = $readOnly;
 		$tag = parent::render($action, $arguments, $controller, $extensionName, $pluginName, $pageUid, $object, $pageType, $fieldNamePrefix, $actionUri);
 		
-		return ($this->readOnly) ? $this->tag->getContent() : $tag;
+		return str_replace('[---nope---]', '', ($this->readOnly) ? $this->tag->getContent() : $tag);
 	}
 	
 	/* (non-PHPdoc)
@@ -100,7 +100,7 @@ class Tx_FormhandlerFluid_ViewHelpers_FormViewHelper extends Tx_Fluid_ViewHelper
 	protected function addFormNameToViewHelperVariableContainer()
 	{
 		if (Tx_Formhandler_Globals::$formValuesPrefix) {
-			$this->viewHelperVariableContainer->add('Tx_Fluid_ViewHelpers_FormViewHelper', 'formName', '');
+			$this->viewHelperVariableContainer->add('Tx_Fluid_ViewHelpers_FormViewHelper', 'formName', '---nope---');
 		}
 	}
 	

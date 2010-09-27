@@ -45,4 +45,16 @@ class Tx_FormhandlerFluid_ViewHelpers_Form_RadioViewHelper extends Tx_Fluid_View
 		}
 		return parent::render($checked);
 	}
+	
+	// == fixing fluid bugs ==
+	
+	/* (non-PHPdoc)
+	 * @see typo3/sysext/fluid/Classes/ViewHelpers/Form/Tx_Fluid_ViewHelpers_Form_AbstractFormFieldViewHelper#getPropertyValue()
+	 * @see http://forge.typo3.org/issues/9950
+	 */
+	protected function getPropertyValue() {
+		$formObject = $this->viewHelperVariableContainer->get('Tx_Fluid_ViewHelpers_FormViewHelper', 'formObject');
+		$propertyName = $this->arguments['property'];
+		return Tx_Extbase_Reflection_ObjectAccess::getPropertyPath($formObject, $propertyName);
+	}
 }

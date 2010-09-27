@@ -58,12 +58,13 @@ class Tx_FormhandlerFluid_Core_ViewHelper_FormTagBuilder extends Tx_Fluid_Core_V
 				$label .= ' for="'.$this->attributes['id'].'"';
 			}
 			$label .= '>'.$this->attributes['label'].'</label>';
-			unset($this->attributes['label']);
 		}
 		if ($this->attributes['labelPlacement'] == 'left')
 		{
 			return $label.parent::render();
 		}
+		unset($this->attributes['labelPlacement'], $this->attributes['label']);
+		
 		return parent::render().$label;
 	}
 	
