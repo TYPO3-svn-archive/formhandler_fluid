@@ -29,6 +29,16 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 	protected static $controllerContext;
 	
 	/**
+	 * @var Tx_FormhandlerFluid_View_Form
+	 */
+	protected $view;
+	
+	/**
+	 * @var array The forms (means actions) to use
+	 */
+	protected $stepForms = array();
+	
+	/**
 	 * We trick formhandler and put it across we have template-string
 	 * @see Tx_FormhandlerFluid_StaticFuncs#readTemplateFile()
 	 */
@@ -40,6 +50,15 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 		if (!$this->view instanceof Tx_FormhandlerFluid_View_Form)
 		{
 			throw new Exception(__CLASS__.' needs an instance of Tx_FormhandlerFluid_View_Form as view!');
+		}
+		
+		// Override settings
+		foreach ((array) $this->settings['finishers.'] as $i => $finisher)
+		{
+			if (in_array($finisher['class'], array('Tx_Formhandler_Finisher_Mail', 'Finisher_Mail')))
+			{
+				$this->settings['finishers.'][$i]['config.']['view'] = 'Tx_FormhandlerFluid_View_Mail';
+			}
 		}
 	}
 	
@@ -85,6 +104,9 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 		return self::$controllerContext;
 	}
 	
+	/**
+	 * Override parent method to get the forms from ts-setup
+	 */
 	protected function getStepInformation()
 	{
 		$this->findCurrentStep();
@@ -105,6 +127,7 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 		}
 		self::getControllerContext()->getArguments()->getArgument('stepForms')->setValue($steps);
 		$this->totalSteps = count($steps);
+		$this->stepForms = $steps;
 		
 		Tx_Formhandler_StaticFuncs::debugMessage('total_steps', $this->totalSteps);
 	}
@@ -116,5 +139,19 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 			$settings['view'] = 'Tx_FormhandlerFluid_View_Form';
 		}
 		return $settings;
+	}
+	
+	/**
+	 * Sets the template of the view.
+	 *
+	 * @return void
+	 * @author	Reinhard Führicht <rf@typoheads.at>
+	 */
+	protected function setViewSubpart($step)
+	{
+		$this->view->setAction($this->stepForms[$step-1]);
+		if(intval($step) === intval(Tx_Formhandler_Session::get('lastStep')) + 1) {
+			$this->finished = TRUE;
+		}
 	}
 }

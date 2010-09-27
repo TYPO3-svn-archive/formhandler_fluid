@@ -58,7 +58,9 @@ class Tx_FormhandlerFluid_ViewHelpers_FormViewHelper extends Tx_Fluid_ViewHelper
 	public function render($action = NULL, array $arguments = array(), $controller = NULL, $extensionName = NULL, $pluginName = NULL, $pageUid = NULL, $object = NULL, $pageType = 0, $fieldNamePrefix = NULL, $actionUri = NULL, $readOnly = false)
 	{
 		$this->readOnly = $readOnly;
-		return parent::render($action, $arguments, $controller, $extensionName, $pluginName, $pageUid, $object, $pageType, $fieldNamePrefix, $actionUri);
+		$tag = parent::render($action, $arguments, $controller, $extensionName, $pluginName, $pageUid, $object, $pageType, $fieldNamePrefix, $actionUri);
+		
+		return ($this->readOnly) ? $this->tag->getContent() : $tag;
 	}
 	
 	/* (non-PHPdoc)
@@ -66,6 +68,10 @@ class Tx_FormhandlerFluid_ViewHelpers_FormViewHelper extends Tx_Fluid_ViewHelper
 	 */
 	protected function renderHiddenReferrerFields()
 	{
+		if ($this->readOnly){
+			return '';
+		}
+		
 		$randomID = Tx_Formhandler_Globals::$randomID;
 		
 		$hiddenFields = '

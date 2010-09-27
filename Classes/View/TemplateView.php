@@ -60,4 +60,14 @@ class Tx_FormhandlerFluid_View_TemplateView extends Tx_Fluid_View_TemplateView
 		}
 		return self::$parserCache[$templatePathAndFilename];
 	}
+	
+	public function hasTemplate()
+	{
+		try {
+			parent::resolveTemplatePathAndFilename(func_get_arg(0));
+			return true;
+		} catch (Tx_Fluid_View_Exception_InvalidTemplateResourceException $e) {
+			return false;
+		}
+	}
 }
