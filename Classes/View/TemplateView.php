@@ -31,6 +31,13 @@ class Tx_FormhandlerFluid_View_TemplateView extends Tx_Fluid_View_TemplateView
 {
 	protected static $parserCache = array();
 	
+	/*public function __construct()
+	{
+		$this->objectManager = t3lib_div::makeInstance('Tx_Fluid_Compatibility_ObjectManager');
+		$this->templateParser = t3lib_div::makeInstance('Tx_FormhandlerFluid_Core_This_Parser');
+		$this->templateParser->injectObjectManager($this->objectManager);
+	}*/
+	
 	/**
 	 * Build parser configuration
 	 *
