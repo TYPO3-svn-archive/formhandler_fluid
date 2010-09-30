@@ -99,6 +99,7 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
 		
 		$this->processErrors($errors);
 		$this->assignDefaults();
+		$this->assignFromSetup();
 		
 		return $this->view->render($this->action);
 	}
@@ -150,6 +151,101 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
 		
 		$this->controllerContext->getRequest()->setErrors($extBaseErrors);
 	}
+	
+	/**
+	 * Assigns data passed to the view. The setup-keys will be the var-
+	 * names in the view. You can use all typoScript-objects and additional there
+	 * are 5 objects reserved to generate arrays:
+	 * 
+	 * - array: Will be an array of all contained properties
+	 * - fluidArray: Will parse the string in .source to an array like in fluid
+	 * - json: Will json_decode the string in .source
+	 * - parseStr: Will parse .source like mb_parse_str does (query-strings)
+	 * - list: Will explode .source by a configurable .delimiter (default is ",")
+	 * 
+	 * Source can contain ts-objects (note that for "array" they are not rendered before)	 * 
+	 * 
+	 * <code title="Simple vars">
+	 * plugin.Tx_Formhandler.view.assign {
+	 * 	name = John
+	 *  age = TEXT
+	 *  age.value = 35
+	 * }
+	 * # In fluid views this will be available in the var name:
+	 * # <fh:translate key="hello"/> {name}
+	 * </code>
+	 * 
+	 * <code title="Assign arrays">
+	 * plugin.Tx_Formhandler.view.assign {
+	 * 	items = array
+	 *  items {
+	 *    first = Please select
+	 *    second = Hello
+	 *    3 = World
+	 *  }
+	 * }
+	 * # Then in fluid view:
+	 * # <fh:form.select property="items" options="{items}"/>
+	 * </code>
+	 * 
+	 * <code title="Assign fluid arrays">
+	 * temp.items = CONTENT
+	 * temp.items {
+	 *   table = tx_myext_items
+	 *   select.pidInList = 17
+	 *   renderObj = TEXT
+	 *   renderObj {
+	 *     value = ,{field:uid}:"{field:title}"
+	 *     insertData = 1
+	 *   }
+	 *   wrap = {0:"--"|}
+	 * }
+	 * plugin.Tx_Formhandler.view.assign {
+	 * 	items = FLUID_ARRAY
+	 *  items.value < temp.items
+	 * }
+	 * # Then in fluid view:
+	 * # <fh:form.select property="items" options="{items}"/>
+	 * </code>
+	 */
+	protected function assignFromSetup()
+	{
+		if (!is_array($this->settings['view.']['assign.'])) {
+			return;
+		}
+		$assign = $this->settings['view.']['assign.'];
+		foreach ($assign as $var => $conf) {
+			if (strpos($var, '.') === false) {
+				if (isset($assign[$var.'.']['source.']) && strtolower($conf) != 'array') {
+					$source = Tx_Formhandler_Globals::$cObj->cObjGetSingle($assign[$var.'.']['source'], (array) $assign[$var.'.']['source.']);
+				}
+				
+    			switch (strtolower(str_replace('_', '', $conf))) {
+    				case 'array':
+    					$data = Tx_FormhandlerFluid_Util_Div::convertTsArray( (array) $assign[$var.'.']);
+    					break;
+    				case 'parsestr':
+    					mb_parse_str($source, $data);
+    					break;
+    				case 'list':					
+    					$delimiter = $assign[$var.'.']['delimiter'] ? $assign[$var.'.']['delimiter'] : ',';
+    					$data = t3lib_div::trimExplode($delimiter, $source);
+    					break;
+    				case 'json':
+    					$data = json_decode($source, true);
+    					break;
+    				case 'fluidarray':
+    					$data = Tx_FormhandlerFluid_Util_Div::parseFluidArray($source);
+    					break;
+    				default:
+    					$data = Tx_Formhandler_Globals::$cObj->cObjGetSingle($conf, $assign[$var.'.']);
+    			}
+    			$this->view->assign($var, $data);
+			}
+		}
+	}
+	
+	
 	
 	/**
 	 * Assign all vars that the view needs
