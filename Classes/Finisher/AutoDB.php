@@ -38,6 +38,7 @@ class Tx_FormhandlerFluid_Finisher_AutoDB extends Tx_Formhandler_Finisher_AutoDB
 	protected function getFormFieldNames()
 	{
 		$arguments = Tx_FormhandlerFluid_Controller_Form::getControllerContext()->getArguments();
+		Tx_FormhandlerFluid_Controller_Form::getControllerContext()->getRequest()->setControllerName('Form');
 		
 		/* @var $view Tx_FormhandlerFluid_View_Form */
 		$view = $this->componentManager->getComponent('Tx_FormhandlerFluid_View_Form');

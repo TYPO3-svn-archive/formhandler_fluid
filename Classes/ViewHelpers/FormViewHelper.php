@@ -109,11 +109,16 @@ class Tx_FormhandlerFluid_ViewHelpers_FormViewHelper extends Tx_Fluid_ViewHelper
 	 */
 	protected function removeFormFieldNamesFromViewHelperVariableContainer()
 	{
+		$names = $this->viewHelperVariableContainer->get('Tx_Fluid_ViewHelpers_FormViewHelper', 'formFieldNames');
+		foreach ($names as $i => $name){
+			$names[$i] = str_replace('[---nope---]', '', $name);
+		}
+		
 		$this
 		->controllerContext
 		->getArguments()
 		->getArgument('fieldNames')
-		->setValue($this->viewHelperVariableContainer->get('Tx_Fluid_ViewHelpers_FormViewHelper', 'formFieldNames'));
+		->setValue($names);
 		
 		parent::removeFormFieldNamesFromViewHelperVariableContainer();
 	}
