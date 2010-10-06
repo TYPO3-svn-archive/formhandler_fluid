@@ -20,8 +20,7 @@
  * @author	Christian Opitz <co@netzelf.de>
  * @package	Tx_FormhandlerFluid
  */
-class Tx_FormhandlerFluid_Loader
-{	
+class Tx_FormhandlerFluid_Loader {	
 	/**
 	 * @var array The namespaces that this Loader cares for
 	 */
@@ -38,8 +37,7 @@ class Tx_FormhandlerFluid_Loader
 	 * @param boolean 
 	 * @return void
 	 */
-	public static function initAutoload()
-	{
+	public static function initAutoload() {
 		self::$_path = t3lib_extMgm::extPath('formhandler_fluid').'Classes';
 		spl_autoload_register(array(__CLASS__, 'autoload'));
 	}
@@ -53,10 +51,10 @@ class Tx_FormhandlerFluid_Loader
 	 * @param string $className The name of a class to load
 	 * @return void
 	 */
-	public static function autoload($className)
-	{
-        if (strpos($className, self::$_namespace) !== 0)
-        {
+	public static function autoload($className) {
+
+        if (strpos($className, self::$_namespace) !== 0) {
+
         	return;
         }
         
@@ -66,11 +64,13 @@ class Tx_FormhandlerFluid_Loader
 
         // does the class requested actually exist now?
         if (class_exists($className) || interface_exists($className)) {
+
             return;
         }
        
         // no, create a new one!
         eval("class $className {
+
             function __construct() {
                 throw new Exception('Class $className not found (tryed to load it from $fileName)');
             }

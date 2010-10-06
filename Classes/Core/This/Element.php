@@ -1,6 +1,6 @@
 <?php
-class Tx_FormhandlerFluid_Core_This_Element
-{
+class Tx_FormhandlerFluid_Core_This_Element {
+
 	/**
 	 * @var Tx_Fluid_Core_Parser_SyntaxTree_ViewHelperNode
 	 */
@@ -15,8 +15,7 @@ class Tx_FormhandlerFluid_Core_This_Element
      * @param $element the $element to set
      * @return Tx_FormhandlerFluid_Core_This_Element
      */
-    public function __construct($element, $arguments)
-    {
+    public function __construct($element, $arguments) {
         $this->element = $element;
         $this->arguments = $arguments;
     }
@@ -25,17 +24,14 @@ class Tx_FormhandlerFluid_Core_This_Element
      * @param string $argument
      * @return mixed|NULL
      */
-    public function getArgument($argument)
-    {
-    	if ($this->hasArgument($argument))
-    	{
+    public function getArgument($argument) {
+    	if ($this->hasArgument($argument)) {
     		return $this->arguments[$argument];
     	}
     	return NULL;
     }
     
-    public function hasArgument($argument)
-    {
+    public function hasArgument($argument) {
     	return array_key_exists($argument, $this->arguments);
     }
     
@@ -48,32 +44,26 @@ class Tx_FormhandlerFluid_Core_This_Element
      * @param array $arguments
      * @return mixed|NULL
      */
-    public function __call($method, $arguments)
-    {
-    	if (strpos($method, 'get') !== false && $method !== 'get')
-    	{
+    public function __call($method, $arguments) {
+    	if (strpos($method, 'get') !== false && $method !== 'get') {
     		$ucArgument = substr($method, 3);
     		$lcArgument = strtolower($ucArgument[0]).substr($ucArgument, 1);
     		
-    		if ($this->hasArgument($lcArgument))
-    		{
+    		if ($this->hasArgument($lcArgument)) {
     			return $this->getArgument($lcArgument);
     		}
-    		if ($this->hasArgument($ucArgument))
-    		{
+    		if ($this->hasArgument($ucArgument)) {
     			return $this->getArgument($ucArgument);
     		}
     	}
     	return null;
     }
 	
-    public function __get($argument)
-    {
+    public function __get($argument) {
     	return  $this->getArgument($argument);
     }
     
-    public function __toString()
-    {
+    public function __toString() {
     	//return $this->element->evaluateChildNodes();
     }
 }

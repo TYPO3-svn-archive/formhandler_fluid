@@ -26,8 +26,8 @@
  * @subpackage View_Helpers
  * @author	Christian Opitz <co@netzelf.de>
  */
-class Tx_FormhandlerFluid_ViewHelpers_Form_PasswordViewHelper extends Tx_Fluid_ViewHelpers_Form_PasswordViewHelper
-{
+class Tx_FormhandlerFluid_ViewHelpers_Form_PasswordViewHelper extends Tx_Fluid_ViewHelpers_Form_PasswordViewHelper {
+
 	// == fixing fluid bugs ==
 	
 	/* (non-PHPdoc)

@@ -23,8 +23,8 @@
  * @package	Tx_Formhandler
  * @subpackage	View_Fluid_ViewHelper
  */
-class Tx_FormhandlerFluid_ViewHelpers_FormViewHelper extends Tx_Fluid_ViewHelpers_FormViewHelper
-{
+class Tx_FormhandlerFluid_ViewHelpers_FormViewHelper extends Tx_Fluid_ViewHelpers_FormViewHelper {
+
 	/**
 	 * @var Whether values should be rendered without elements
 	 */
@@ -34,8 +34,7 @@ class Tx_FormhandlerFluid_ViewHelpers_FormViewHelper extends Tx_Fluid_ViewHelper
 	 * Whether values should be rendered without elements
 	 * @return boolean
 	 */
-	public function isReadOnly()
-	{
+	public function isReadOnly() {
 		return $this->readOnly;
 	}
 	
@@ -55,8 +54,7 @@ class Tx_FormhandlerFluid_ViewHelpers_FormViewHelper extends Tx_Fluid_ViewHelper
 	 * @param boolean $readOnly When set no form-elements will be rendered but only the values or selected/checked labels
 	 * @return string rendered form
 	 */
-	public function render($action = NULL, array $arguments = array(), $controller = NULL, $extensionName = NULL, $pluginName = NULL, $pageUid = NULL, $object = NULL, $pageType = 0, $fieldNamePrefix = NULL, $actionUri = NULL, $readOnly = false)
-	{
+	public function render($action = NULL, array $arguments = array(), $controller = NULL, $extensionName = NULL, $pluginName = NULL, $pageUid = NULL, $object = NULL, $pageType = 0, $fieldNamePrefix = NULL, $actionUri = NULL, $readOnly = false) {
 		$this->readOnly = $readOnly;
 		$tag = parent::render($action, $arguments, $controller, $extensionName, $pluginName, $pageUid, $object, $pageType, $fieldNamePrefix, $actionUri);
 		
@@ -66,8 +64,7 @@ class Tx_FormhandlerFluid_ViewHelpers_FormViewHelper extends Tx_Fluid_ViewHelper
 	/* (non-PHPdoc)
 	 * @see typo3/sysext/fluid/Classes/ViewHelpers/Tx_Fluid_ViewHelpers_FormViewHelper#renderHiddenReferrerFields()
 	 */
-	protected function renderHiddenReferrerFields()
-	{
+	protected function renderHiddenReferrerFields() {
 		if ($this->readOnly){
 			return '';
 		}
@@ -97,8 +94,7 @@ class Tx_FormhandlerFluid_ViewHelpers_FormViewHelper extends Tx_Fluid_ViewHelper
 	 * Trigger ObjectAccessorMode
 	 * @see Tx_Fluid_ViewHelpers_Form_AbstractFormFieldViewHelper#isObjectAccessorMode()
 	 */
-	protected function addFormNameToViewHelperVariableContainer()
-	{
+	protected function addFormNameToViewHelperVariableContainer() {
 		if (Tx_Formhandler_Globals::$formValuesPrefix) {
 			$this->viewHelperVariableContainer->add('Tx_Fluid_ViewHelpers_FormViewHelper', 'formName', '---nope---');
 		}
@@ -107,8 +103,7 @@ class Tx_FormhandlerFluid_ViewHelpers_FormViewHelper extends Tx_Fluid_ViewHelper
 	/**
 	 * Propagate the registered fieldnames to the controller
 	 */
-	protected function removeFormFieldNamesFromViewHelperVariableContainer()
-	{
+	protected function removeFormFieldNamesFromViewHelperVariableContainer() {
 		$names = $this->viewHelperVariableContainer->get('Tx_Fluid_ViewHelpers_FormViewHelper', 'formFieldNames');
 		foreach ($names as $i => $name){
 			$names[$i] = str_replace('[---nope---]', '', $name);
@@ -126,8 +121,7 @@ class Tx_FormhandlerFluid_ViewHelpers_FormViewHelper extends Tx_Fluid_ViewHelper
 	/**
 	 * Removes the "form name" from the ViewHelperVariableContainer.
 	 */
-	protected function removeFormNameFromViewHelperVariableContainer()
-	{
+	protected function removeFormNameFromViewHelperVariableContainer() {
 		if (Tx_Formhandler_Globals::$formValuesPrefix) {
 			$this->viewHelperVariableContainer->remove('Tx_Fluid_ViewHelpers_FormViewHelper', 'formName');
 		}

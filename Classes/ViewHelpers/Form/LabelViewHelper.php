@@ -28,8 +28,8 @@
  * @subpackage View_Helpers
  * @author	Christian Opitz <co@netzelf.de>
  */
-class Tx_FormhandlerFluid_ViewHelpers_Form_LabelViewHelper extends Tx_Fluid_Core_ViewHelper_TagBasedViewHelper
-{
+class Tx_FormhandlerFluid_ViewHelpers_Form_LabelViewHelper extends Tx_Fluid_Core_ViewHelper_TagBasedViewHelper {
+
 	/**
 	 * @var string
 	 */
@@ -46,8 +46,7 @@ class Tx_FormhandlerFluid_ViewHelpers_Form_LabelViewHelper extends Tx_Fluid_Core
 	 * @param string $for The id of the element for which the label is
 	 * @return string
 	 */
-	public function render($for)
-	{
+	public function render($for) {
 		$this->for = $for;
 		
 		$this->detectErrors();
@@ -58,8 +57,7 @@ class Tx_FormhandlerFluid_ViewHelpers_Form_LabelViewHelper extends Tx_Fluid_Core
 		return $this->tag->render();
 	}
 	
-	protected function detectErrors()
-	{
+	protected function detectErrors() {
 		/*
 		//Ineffective:
 		$errors = $this->controllerContext->getRequest()->getErrors($for);
@@ -86,8 +84,7 @@ class Tx_FormhandlerFluid_ViewHelpers_Form_LabelViewHelper extends Tx_Fluid_Core
 		}
 	}
 	
-	protected function detectRequired()
-	{
+	protected function detectRequired() {
 		
 	}
 }

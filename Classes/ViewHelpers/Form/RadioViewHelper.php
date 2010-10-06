@@ -26,8 +26,8 @@
  * @subpackage View_Helpers
  * @author	Christian Opitz <co@netzelf.de>
  */
-class Tx_FormhandlerFluid_ViewHelpers_Form_RadioViewHelper extends Tx_Fluid_ViewHelpers_Form_RadioViewHelper
-{
+class Tx_FormhandlerFluid_ViewHelpers_Form_RadioViewHelper extends Tx_Fluid_ViewHelpers_Form_RadioViewHelper {
+
 	/**
 	 * @param boolean $checked Specifies that the input element should be preselected
 	 * @param string $label The label for this element (Only in Tx_FormhandlerFluid_View_TemplateView)
@@ -36,10 +36,8 @@ class Tx_FormhandlerFluid_ViewHelpers_Form_RadioViewHelper extends Tx_Fluid_View
 	 * @author Bastian Waidelich <bastian@typo3.org>
 	 * @author Christian Opitz <co@netzelf.de>
 	 */
-	public function render($checked = NULL, $label = null, $labelPlacement = 'right')
-	{
-		if ($this->tag instanceof Tx_FormhandlerFluid_Core_ViewHelper_FormTagBuilder)
-		{
+	public function render($checked = NULL, $label = null, $labelPlacement = 'right') {
+		if ($this->tag instanceof Tx_FormhandlerFluid_Core_ViewHelper_FormTagBuilder) {
 			$this->tag->addAttribute('label', $label);
 			$this->tag->addAttribute('labelPlacement', $labelPlacement);
 		}

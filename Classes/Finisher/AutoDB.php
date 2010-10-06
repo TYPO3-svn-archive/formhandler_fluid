@@ -27,16 +27,14 @@
  * @subpackage Core
  * @author	Christian Opitz <co@netzelf.de>
  */
-class Tx_FormhandlerFluid_Finisher_AutoDB extends Tx_Formhandler_Finisher_AutoDB
-{	
+class Tx_FormhandlerFluid_Finisher_AutoDB extends Tx_Formhandler_Finisher_AutoDB {	
 	/**
 	 * Retrieve the fieldnames registered by the fluid form (those include
 	 * the prefix if set)
 	 * 
 	 * @return array
 	 */
-	protected function getFormFieldNames()
-	{
+	protected function getFormFieldNames() {
 		$arguments = Tx_FormhandlerFluid_Controller_Form::getControllerContext()->getArguments();
 		Tx_FormhandlerFluid_Controller_Form::getControllerContext()->getRequest()->setControllerName('Form');
 		

@@ -26,17 +26,15 @@
  * @subpackage View_Helpers
  * @author	Christian Opitz <co@netzelf.de>
  */
-class Tx_FormhandlerFluid_ViewHelpers_Form_CheckboxViewHelper extends Tx_Fluid_ViewHelpers_Form_CheckboxViewHelper
-{
+class Tx_FormhandlerFluid_ViewHelpers_Form_CheckboxViewHelper extends Tx_Fluid_ViewHelpers_Form_CheckboxViewHelper {
+
 	/**
 	 * When formTagBuilder is in use you can use a label attribute that will
 	 * be the label for this element (setting the id is recommended)
 	 */
-	public function initializeArguments()
-	{
+	public function initializeArguments() {
 		parent::initializeArguments();
-		if ($this->tag instanceof Tx_FormhandlerFluid_Core_ViewHelper_FormTagBuilder)
-		{
+		if ($this->tag instanceof Tx_FormhandlerFluid_Core_ViewHelper_FormTagBuilder) {
     		$this->registerTagAttribute('label', 'string', 'The label for this element');
     		$this->registerTagAttribute('labelPlacement', 'string', 'Where to inject the label (before|after)');
 		}
@@ -52,10 +50,8 @@ class Tx_FormhandlerFluid_ViewHelpers_Form_CheckboxViewHelper extends Tx_Fluid_V
 	 * @author Bastian Waidelich <bastian@typo3.org>
 	 * @author Christian Opitz <co@netzelf.de>
 	 */
-	public function render($checked = NULL, $label = null, $labelPlacement = 'right')
-	{
-		if ($this->tag instanceof Tx_FormhandlerFluid_Core_ViewHelper_FormTagBuilder)
-		{
+	public function render($checked = NULL, $label = null, $labelPlacement = 'right') {
+		if ($this->tag instanceof Tx_FormhandlerFluid_Core_ViewHelper_FormTagBuilder) {
 			$this->tag->addAttribute('label', $label);
 			$this->tag->addAttribute('labelPlacement', $labelPlacement);
 		}

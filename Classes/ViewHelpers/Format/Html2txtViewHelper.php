@@ -97,8 +97,8 @@
  * @package	Tx_Formhandler
  * @subpackage	View_Fluid_ViewHelper
  */
-class Tx_FormhandlerFluid_ViewHelpers_Format_Html2txtViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper 
-{
+class Tx_FormhandlerFluid_ViewHelpers_Format_Html2txtViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+
 	protected $tab = '~#~TAB~#~';
 	protected $bullet = '~#~BULLET~#~';
 	
@@ -118,8 +118,7 @@ class Tx_FormhandlerFluid_ViewHelpers_Format_Html2txtViewHelper extends Tx_Fluid
      * @param string $html
      * @return string The rendered text
      */
-    protected function convertHtmlToText($html)
-    {
+    protected function convertHtmlToText($html) {
     	$html = $this->fixNewlines($html);
     	
     	//DOM messes utf8
@@ -170,10 +169,8 @@ class Tx_FormhandlerFluid_ViewHelpers_Format_Html2txtViewHelper extends Tx_Fluid
 	 * @param string $prevOutput
 	 * @return string
 	 */
-	protected function iterateOverNode($node, $prevOutput = '')
-    {
-    	if ($node instanceof DOMText)
-    	{
+	protected function iterateOverNode($node, $prevOutput = '') {
+    	if ($node instanceof DOMText) {
     		return $prevOutput.preg_replace("/\\s+/im", " ", $node->wholeText);
     	}
     	if ($node instanceof DOMDocumentType) {
@@ -184,22 +181,18 @@ class Tx_FormhandlerFluid_ViewHelpers_Format_Html2txtViewHelper extends Tx_Fluid
     	$name = strtolower($node->nodeName);
     	$this->preProcessTag($node);
     	
-    	if (in_array($name, array('style', 'head', 'title', 'meta', 'script', 'object')))
-    	{
+    	if (in_array($name, array('style', 'head', 'title', 'meta', 'script', 'object'))) {
     		return '';
     	}
     
     	$output = '';
-    	for ($i = 0; $i < $node->childNodes->length; $i++)
-    	{
+    	for ($i = 0; $i < $node->childNodes->length; $i++) {
     		$output = $this->iterateOverNode($node->childNodes->item($i), $output);
     	}
     	
     	$before = ''; $after ='';
-    	if (strlen($output))
-    	{
-        	if ($this->isSingleBreakElement($name))
-        	{
+    	if (strlen($output)) {
+        	if ($this->isSingleBreakElement($name)) {
         		$prevOutput = rtrim($prevOutput);
         		$before = "\n";
         		
@@ -227,14 +220,11 @@ class Tx_FormhandlerFluid_ViewHelpers_Format_Html2txtViewHelper extends Tx_Fluid
      * 
      * @param DOMElement $node
      */
-    protected function preProcessTag($node)
-    {
-    	switch ($node->nodeName)
-    	{
+    protected function preProcessTag($node) {
+    	switch ($node->nodeName) {
     		case 'ul':
     		case 'ol':
-    			if ($node->parentNode->nodeName == 'li')
-    			{
+    			if ($node->parentNode->nodeName == 'li') {
     				$node->setAttribute('rel', intval($node->parentNode->getAttribute('rel')) + 1);
     			}else{
     				$node->setAttribute('rel', 0);
@@ -244,8 +234,7 @@ class Tx_FormhandlerFluid_ViewHelpers_Format_Html2txtViewHelper extends Tx_Fluid
     		case 'li':
     			$rel = intval($node->parentNode->getAttribute('rel'));
     			$node->setAttribute('rel', $rel);
-    			if ($node->parentNode->nodeName == 'ol')
-    			{
+    			if ($node->parentNode->nodeName == 'ol') {
     				$i = intval($node->parentNode->getAttribute('top')) + 1;
     				$node->parentNode->setAttribute('top', $i);
     				$node->setAttribute('left', str_repeat($this->tab, $rel).$i.'. ');
@@ -267,10 +256,8 @@ class Tx_FormhandlerFluid_ViewHelpers_Format_Html2txtViewHelper extends Tx_Fluid
      * @param string $name
      * @param DOMElement $node
      */
-    protected function postProcessTag(&$output, &$before, &$after, $name, $node)
-    {
-    	switch ($name)
-    	{
+    protected function postProcessTag(&$output, &$before, &$after, $name, $node) {
+    	switch ($name) {
     		case 'a':
     			$href = $node->getAttribute("href");
     			if ($href != null) {
@@ -305,8 +292,7 @@ class Tx_FormhandlerFluid_ViewHelpers_Format_Html2txtViewHelper extends Tx_Fluid
     			}
     		break;
     		case 'li':
-				if ($node->getAttribute('left'))
-				{
+				if ($node->getAttribute('left')) {
 					$parts = explode("\n", $output);
 					if (count($parts) > 1) {
     					// Ok - this is a li directly following an nested ul or ul
@@ -331,8 +317,7 @@ class Tx_FormhandlerFluid_ViewHelpers_Format_Html2txtViewHelper extends Tx_Fluid
      * @param string $name The tag name
      * @return boolean
      */
-    protected function isSingleBreakElement($name)
-    {
+    protected function isSingleBreakElement($name) {
     	return in_array($name, array(
     		'address',
     		'blockquote',
@@ -358,8 +343,7 @@ class Tx_FormhandlerFluid_ViewHelpers_Format_Html2txtViewHelper extends Tx_Fluid
      * @param string $name
      * @return boolean
      */
-    protected function isDoubleBreakElement($name)
-    {
+    protected function isDoubleBreakElement($name) {
     	return in_array($name, array(
     		'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
         	'ol', 'ul', 'dl',

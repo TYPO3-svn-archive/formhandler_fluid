@@ -27,10 +27,9 @@
  * @subpackage View
  * @author Christian Opitz <co@netzelf.de>
  */
-class Tx_FormhandlerFluid_View_Mail extends Tx_FormhandlerFluid_View_Form
-{
-	protected function initializeView()
-	{
+class Tx_FormhandlerFluid_View_Mail extends Tx_FormhandlerFluid_View_Form {
+
+	protected function initializeView() {
 		parent::initializeView();
 		$this->controllerContext->getRequest()->setControllerName('Mail');
 	}
@@ -42,10 +41,8 @@ class Tx_FormhandlerFluid_View_Mail extends Tx_FormhandlerFluid_View_Form
 	 * @param array $errors In this class the second param is used to pass information about the email mode (HTML|PLAIN)
 	 * @return string content
 	 */
-	public function render($gp, $config)
-	{
-		if ($this->hasTemplate())
-		{
+	public function render($gp, $config) {
+		if ($this->hasTemplate()) {
     		$result = parent::render($config['suffix'] != 'plain' ? $this->checkBinaryCrLf($gp) : $gp, array());
 		}
 		
@@ -53,12 +50,10 @@ class Tx_FormhandlerFluid_View_Mail extends Tx_FormhandlerFluid_View_Form
 		return trim($result);
 	}
 	
-	public function setTemplate($templateCode, $templateName, $forceTemplate = FALSE)
-	{
+	public function setTemplate($templateCode, $templateName, $forceTemplate = FALSE) {
 		$conf = explode('_', $templateName);
 		$this->setAction(strtolower($conf[1]));
-		if (stripos($conf[2], 'plain') === 0)
-		{
+		if (stripos($conf[2], 'plain') === 0) {
 			$this->controllerContext->getRequest()->setFormat('txt');
 		}else{
 			$this->controllerContext->getRequest()->setFormat('html');
@@ -70,11 +65,9 @@ class Tx_FormhandlerFluid_View_Mail extends Tx_FormhandlerFluid_View_Form
 	 *
 	 * @return void
 	 */
-	protected function checkBinaryCrLf($gp)
-	{
+	protected function checkBinaryCrLf($gp) {
 		$componentSettings = $this->getComponentSettings();
-		if ($componentSettings['checkBinaryCrLf'])
-		{
+		if ($componentSettings['checkBinaryCrLf']) {
 			$paramsToCheck = t3lib_div::trimExplode(',', $componentSettings['checkBinaryCrLf']);
 			foreach($paramsToCheck as $field) {
 				if(!is_array($field)) {

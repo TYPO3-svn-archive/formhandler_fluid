@@ -1,6 +1,6 @@
 <?php
-class Tx_FormhandlerFluid_Core_This_AccessorNode extends Tx_Fluid_Core_Parser_SyntaxTree_AbstractNode
-{
+class Tx_FormhandlerFluid_Core_This_AccessorNode extends Tx_Fluid_Core_Parser_SyntaxTree_AbstractNode {
+
 	/**
 	 * Object path which will be called. Is a list like "post.name.email"
 	 * @var Tx_FormhandlerFluid_Core_This_Document
@@ -22,8 +22,7 @@ class Tx_FormhandlerFluid_Core_This_AccessorNode extends Tx_Fluid_Core_Parser_Sy
 	 * @param string $objectPath An Object Path, like object1.object2.object3
 	 * @author Sebastian Kurfürst <sebastian@typo3.org>
 	 */
-	public function __construct($objectPath, $document)
-	{
+	public function __construct($objectPath, $document) {
 		$this->objectPath = $objectPath;
 		$this->document = $document;
 	}
@@ -44,8 +43,7 @@ class Tx_FormhandlerFluid_Core_This_AccessorNode extends Tx_Fluid_Core_Parser_Sy
 	 * @author Bastian Waidelich <bastian@typo3.org>
 	 * @todo Depending on the context, either fail or not!!!
 	 */
-	public function evaluate()
-	{
+	public function evaluate() {
 		$objectPath = explode('.', $this->objectPath);
 		//shift "this"
 		array_shift($objectPath);
@@ -54,8 +52,7 @@ class Tx_FormhandlerFluid_Core_This_AccessorNode extends Tx_Fluid_Core_Parser_Sy
 		$argument = array_shift($objectPath);
 		$element = $this->document->getElementById($id);
 		
-		if ($element !== null && $element->hasArgument($argument))
-		{
+		if ($element !== null && $element->hasArgument($argument)) {
 			$this->addChildNode($element->getArgument($argument));
 			$object = $this->evaluateChildNodes();
     		

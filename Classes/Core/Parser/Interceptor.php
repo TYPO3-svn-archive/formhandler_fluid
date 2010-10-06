@@ -27,8 +27,8 @@
  * @subpackage Core
  * @author	Christian Opitz <co@netzelf.de>
  */
-class Tx_FormhandlerFluid_Core_Parser_Interceptor implements Tx_Fluid_Core_Parser_InterceptorInterface
-{
+class Tx_FormhandlerFluid_Core_Parser_Interceptor implements Tx_Fluid_Core_Parser_InterceptorInterface {
+
 	/**
 	 * @var Tx_FormhandlerFluid_ViewHelpers_FormViewHelper
 	 */
@@ -44,27 +44,22 @@ class Tx_FormhandlerFluid_Core_Parser_Interceptor implements Tx_Fluid_Core_Parse
 	 * @author Karsten Dambekalns <karsten@typo3.org>
 	 * @author Sebastian Kurfürst <sebastian@typo3.org>
 	 */
-	public function process(Tx_Fluid_Core_Parser_SyntaxTree_NodeInterface $node, $interceptorPosition)
-	{
+	public function process(Tx_Fluid_Core_Parser_SyntaxTree_NodeInterface $node, $interceptorPosition) {
 		if ($interceptorPosition === Tx_Fluid_Core_Parser_InterceptorInterface::INTERCEPT_OPENING_VIEWHELPER &&
-			$node instanceof Tx_Fluid_Core_Parser_SyntaxTree_ViewHelperNode)
-		{
-			if ($this->form && $node->getViewHelper() instanceof Tx_Fluid_ViewHelpers_Form_AbstractFormFieldViewHelper)
-			{
+			$node instanceof Tx_Fluid_Core_Parser_SyntaxTree_ViewHelperNode) {
+			if ($this->form && $node->getViewHelper() instanceof Tx_Fluid_ViewHelpers_Form_AbstractFormFieldViewHelper) {
 				$tagbuilder = t3lib_div::makeInstance('Tx_FormhandlerFluid_Core_ViewHelper_FormTagBuilder');
 				$tagbuilder->setFormViewHelper($this->form);
 				$node->getViewHelper()->injectTagBuilder($tagbuilder);
 			} 
-			elseif ($node->getViewHelper() instanceof Tx_FormhandlerFluid_ViewHelpers_FormViewHelper)
-			{
+			elseif ($node->getViewHelper() instanceof Tx_FormhandlerFluid_ViewHelpers_FormViewHelper) {
 				$this->form = $node->getViewHelper();
 			}
 		}
 		elseif ($this->form &&
 			$interceptorPosition === Tx_Fluid_Core_Parser_InterceptorInterface::INTERCEPT_CLOSING_VIEWHELPER &&
 			$node instanceof Tx_Fluid_Core_Parser_SyntaxTree_ViewHelperNode &&
-			$node->getViewHelper() instanceof Tx_FormhandlerFluid_ViewHelpers_FormViewHelper)
-		{
+			$node->getViewHelper() instanceof Tx_FormhandlerFluid_ViewHelpers_FormViewHelper) {
 			$this->form = null;
 		}
 		return $node;

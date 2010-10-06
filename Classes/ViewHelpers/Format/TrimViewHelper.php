@@ -21,19 +21,17 @@
  * @package	Tx_Formhandler
  * @subpackage	View_Fluid_ViewHelper
  */
-class Tx_FormhandlerFluid_ViewHelpers_Format_TrimViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper
-{
+class Tx_FormhandlerFluid_ViewHelpers_Format_TrimViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+
 	/**
 	 * Trims the content
 	 * 
 	 * @param Boolean $lines When setting this each line is trimmed and empty lines will be removed
 	 * @return string The trimmed content
 	 */
-	public function render($lines = false)
-	{
+	public function render($lines = false) {
 		$content = $this->renderChildren();
-		if ($lines)
-		{
+		if ($lines) {
 			return preg_replace('/\s*\n\s*/', '', $content);
 		}else{
 			return trim($content);

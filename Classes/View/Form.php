@@ -27,8 +27,7 @@
  * @subpackage View
  * @author Christian Opitz <co@netzelf.de>
  */
-class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
-{	
+class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView {	
 	/**
 	 * @var Tx_Fluid_View_TemplateView
 	 */
@@ -47,8 +46,7 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
 	 * Make the 'real' view (this is just a proxy)
 	 * @see Tx_Extbase_MVC_Controller_ControllerContext#getControllerContext()
 	 */
-	protected function initializeView()
-	{
+	protected function initializeView() {
 		$this->view = t3lib_div::makeInstance('Tx_FormhandlerFluid_View_TemplateView');
 		$this->controllerContext = Tx_FormhandlerFluid_Controller_Form::getControllerContext();
 		$this->view->setControllerContext($this->controllerContext);
@@ -56,16 +54,14 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
 		// Set the view paths (usually done in controller but this view is not
 		// alway called from an controller (f.i. Tx_FormhandlerFluid_View_FluidMail)
 		$this->settings = Tx_Formhandler_Globals::$settings;
-		if (!empty($this->settings['templateRoot']))
-		{
+		if (!empty($this->settings['templateRoot'])) {
 			$path = Tx_Formhandler_StaticFuncs::resolvePath($this->settings['templateRoot']);
 			$path = rtrim($path, '\\/').'/';
 			$this->view->setTemplateRootPath($path.trim($this->settings['templateDir'], '\\/'));
 			$this->view->setLayoutRootPath($path.trim($this->settings['layoutDir'], '\\/'));
 			$this->view->setPartialRootPath($path.trim($this->settings['partialDir'], '\\/'));
 		}
-		elseif ($this->settings['templateFile'])
-		{
+		elseif ($this->settings['templateFile']) {
 			$path = Tx_Formhandler_StaticFuncs::resolvePath($this->settings['templateFile']);
 			$this->view->setTemplatePathAndFilename($path);
 		} else {
@@ -73,8 +69,7 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
 		}
 	}
 	
-	public function getSetting($key, $default)
-	{
+	public function getSetting($key, $default) {
 		return $this->settings[$key] ? $this->settings[$key] : $default;
 	}
 	
@@ -84,16 +79,14 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
 	 * @param string $method
 	 * @param array $args
 	 */
-	public function __call($method, $args)
-	{
+	public function __call($method, $args) {
 		return call_user_func_array(array($this->view, $method), $args);
 	}
 	
 	/* (non-PHPdoc)
 	 * @see Classes/View/Tx_FormhandlerFluid_AbstractView#render()
 	 */
-	public function render($gp, $errors)
-	{				
+	public function render($gp, $errors) {				
 		$this->view->assign('gp', $gp);
 		$this->view->assign('errors', $errors);
 		
@@ -104,24 +97,20 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
 		return $this->view->render($this->action);
 	}
 	
-	public function setForm($form)
-	{
+	public function setForm($form) {
 		$this->setAction($form);
 	}
 	
-	public function setAction($action)
-	{
+	public function setAction($action) {
 		$this->action = $action;
 	}
 	
-	public function setTemplate($templateCode, $templateName, $forceTemplate = FALSE)
-	{
+	public function setTemplate($templateCode, $templateName, $forceTemplate = FALSE) {
 		$parts = explode('_');
 		$this->setAction(strtolower($parts[1]));
 	}
 	
-	public function hasTemplate()
-	{
+	public function hasTemplate() {
 		return $this->view->hasTemplate($this->action);
 	}
 	
@@ -132,17 +121,14 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
 	 * @param array $errors
 	 * @todo Think about a way to pass translated messages for each validator
 	 */
-	protected function processErrors($errors)
-	{
+	protected function processErrors($errors) {
 		$extBaseErrors = array();
 		
-		foreach ((array) $errors as $field => $validators)
-		{
+		foreach ((array) $errors as $field => $validators) {
 			/* @var $propertyError Tx_Extbase_Validation_PropertyError */
 			$propertyError = t3lib_div::makeInstance('Tx_Extbase_Validation_PropertyError', $field);
 			$propertyErrors = array();
-			foreach ((array) $validators as $validator)
-			{
+			foreach ((array) $validators as $validator) {
 				array_push($propertyErrors, t3lib_div::makeInstance('Tx_Extbase_Error_Error', '', $validator));
 			}
 			$propertyError->addErrors($propertyErrors);
@@ -208,8 +194,7 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
 	 * # <fh:form.select property="items" options="{items}"/>
 	 * </code>
 	 */
-	protected function assignFromSetup()
-	{
+	protected function assignFromSetup() {
 		if (!is_array($this->settings['view.']['assign.'])) {
 			return;
 		}
@@ -250,8 +235,7 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView
 	/**
 	 * Assign all vars that the view needs
 	 */
-	protected function assignDefaults()
-	{
+	protected function assignDefaults() {
 		$this->view->assignMultiple(
 			array(
 				'timestamp'			=> time(),

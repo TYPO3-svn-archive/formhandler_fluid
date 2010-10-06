@@ -1,5 +1,6 @@
 <?php
 class Tx_FormhandlerFluid_Util_Div {
+
 	
 	/**
 	 * Stolen from Fluid
@@ -76,12 +77,10 @@ class Tx_FormhandlerFluid_Util_Div {
 	 * @param array $tsArray Array with dots
 	 * @return array Without dots in keys
 	 */
-	public static function convertTsArray($tsArray)
-	{
+	public static function convertTsArray($tsArray) {
 		$array = array();
 		foreach ($tsArray as $key => $value) {
-			if (strpos($key, '.') === false && !in_array($key, $array))
-			{
+			if (strpos($key, '.') === false && !in_array($key, $array)) {
 				$array[$key] = $value;
 			}else{
 				$array[trim($key, '.')] = self::convertTsArray($value);

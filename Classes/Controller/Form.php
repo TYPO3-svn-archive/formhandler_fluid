@@ -21,8 +21,8 @@
  * @package	Tx_Formhandler
  * @subpackage	Controller
  */
-class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
-{
+class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form {
+
 	/**
 	 * @var Tx_Extbase_MVC_Controller_ControllerContext
 	 */
@@ -42,25 +42,21 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 	 * We trick formhandler and put it across we have template-string
 	 * @see Tx_FormhandlerFluid_StaticFuncs#readTemplateFile()
 	 */
-	protected function init()
-	{		
+	protected function init() {		
 		$this->templateFile = "-\n-";
 		parent::init();
 		
-		if (!$this->view instanceof Tx_FormhandlerFluid_View_Form)
-		{
+		if (!$this->view instanceof Tx_FormhandlerFluid_View_Form) {
 			throw new Exception(__CLASS__.' needs an instance of Tx_FormhandlerFluid_View_Form as view!');
 		}
 		
 		// Fetch lang files from templateRoot/Language if available
-		if (!count($this->langFiles) && $this->settings['templateRoot'])
-		{
+		if (!count($this->langFiles) && $this->settings['templateRoot']) {
 			$path = Tx_Formhandler_StaticFuncs::resolvePath($this->settings['templateRoot']);
 			$path = rtrim($path, '\\/').'/'.trim($this->settings['languageDir']);
 			
 			$iterator = new DirectoryIterator($path);			
-			foreach ($iterator as $item)
-			{
+			foreach ($iterator as $item) {
 				if ($item->isFile() && $item->isReadable()) {
 					$info = pathinfo($item->getPathname());
 					if ($info['extension'] == 'xml') {
@@ -80,10 +76,8 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 	 * 
 	 * @return Tx_Extbase_MVC_Controller_ControllerContext
 	 */
-	public static function getControllerContext()
-	{
-		if (!self::$controllerContext)
-		{
+	public static function getControllerContext() {
+		if (!self::$controllerContext) {
 			/* @var $request Tx_Extbase_MVC_Web_Request */
     		$request = t3lib_div::makeInstance('Tx_Extbase_MVC_Web_Request');
     		$request->setControllerExtensionName('formhandler');
@@ -118,8 +112,7 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 	/**
 	 * Override parent method to get the forms from ts-setup
 	 */
-	protected function getStepInformation()
-	{
+	protected function getStepInformation() {
 		$this->findCurrentStep();
 		
 		$this->lastStep = Tx_Formhandler_Session::get('currentStep');
@@ -127,8 +120,7 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 			$this->lastStep = 1;
 		}
 		
-		if (!$this->settings['steps'] && $this->settings['form'])
-		{
+		if (!$this->settings['steps'] && $this->settings['form']) {
 			$this->settings['steps'] = $this->settings['form'];
 		}
 		if ($this->settings['steps']) {
@@ -143,18 +135,16 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 		Tx_Formhandler_StaticFuncs::debugMessage('total_steps', $this->totalSteps);
 	}
 	
-	public function getSettings()
-	{
+	public function getSettings() {
 		$settings = parent::getSettings();
 		if(empty($settings['view'])) {
 			$settings['view'] = 'Tx_FormhandlerFluid_View_Form';
 		}
 		
 		// Override settings
-		foreach ((array) $settings['finishers.'] as $i => $finisher)
-		{
-			if (in_array($finisher['class'], array('Tx_Formhandler_Finisher_Mail', 'Finisher_Mail')))
-			{
+		foreach ((array) $settings['finishers.'] as $i => $finisher) {
+			if (in_array($finisher['class'], array('Tx_Formhandler_Finisher_Mail', 'Finisher_Mail'))) {
+
 				$settings['finishers.'][$i]['config.']['view'] = 'Tx_FormhandlerFluid_View_Mail';
 			}
 		}
@@ -168,8 +158,7 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 	 * @return void
 	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 */
-	protected function setViewSubpart($step)
-	{
+	protected function setViewSubpart($step) {
 		$this->view->setAction($this->stepForms[$step-1]);
 		if(intval($step) === intval(Tx_Formhandler_Session::get('lastStep')) + 1) {
 			$this->finished = TRUE;

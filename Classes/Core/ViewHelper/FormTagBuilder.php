@@ -27,15 +27,14 @@
  * @subpackage Core
  * @author	Christian Opitz <co@netzelf.de>
  */
-class Tx_FormhandlerFluid_Core_ViewHelper_FormTagBuilder extends Tx_Fluid_Core_ViewHelper_TagBuilder
-{
+class Tx_FormhandlerFluid_Core_ViewHelper_FormTagBuilder extends Tx_Fluid_Core_ViewHelper_TagBuilder {
+
 	/**
 	 * @var Tx_FormhandlerFluid_ViewHelpers_FormViewHelper
 	 */
 	protected $formViewHelper;
 	
-	public function setFormViewHelper(Tx_FormhandlerFluid_ViewHelpers_FormViewHelper $form)
-	{
+	public function setFormViewHelper(Tx_FormhandlerFluid_ViewHelpers_FormViewHelper $form) {
 		$this->formViewHelper = $form;
 	}
 	
@@ -43,24 +42,19 @@ class Tx_FormhandlerFluid_Core_ViewHelper_FormTagBuilder extends Tx_Fluid_Core_V
 	 * Renders and returns the tag - parses the label argument and when
 	 * the formViewHelper is on readOnly just the values are returned
 	 */
-	public function render()
-	{
-		if ($this->formViewHelper->isReadOnly())
-		{
+	public function render() {
+		if ($this->formViewHelper->isReadOnly()) {
 			return $this->renderReadOnly();
 		}
 		
-		if ($this->attributes['label'])
-		{
+		if ($this->attributes['label']) {
 			$label = '<label';
-			if ($this->attributes['id'])
-			{
+			if ($this->attributes['id']) {
 				$label .= ' for="'.$this->attributes['id'].'"';
 			}
 			$label .= '>'.$this->attributes['label'].'</label>';
 		}
-		if ($this->attributes['labelPlacement'] == 'left')
-		{
+		if ($this->attributes['labelPlacement'] == 'left') {
 			return $label.parent::render();
 		}
 		unset($this->attributes['labelPlacement'], $this->attributes['label']);
@@ -73,24 +67,19 @@ class Tx_FormhandlerFluid_Core_ViewHelper_FormTagBuilder extends Tx_Fluid_Core_V
 	 * 
 	 * @return string The value or concatenated values of this tag
 	 */
-	public function renderReadOnly()
-	{
-		if ($this->tagName == 'textarea')
-		{
+	public function renderReadOnly() {
+		if ($this->tagName == 'textarea') {
 			return $this->content;
 		}
-		if ($this->tagName == 'input')
-		{
+		if ($this->tagName == 'input') {
 			$value = (string) $this->attributes['value'];
-			switch ($this->attributes['type'])
-			{
+			switch ($this->attributes['type']) {
 				case 'submit':
 				case 'hidden':
 					return '';
 				case 'checkbox':
 				case 'radio':
-					if ($this->attributes['checked'])
-					{
+					if ($this->attributes['checked']) {
 						$value = $this->attributes['label'] ? $this->attributes['label'] : $value;
 					}else{
 						return '';
@@ -99,8 +88,7 @@ class Tx_FormhandlerFluid_Core_ViewHelper_FormTagBuilder extends Tx_Fluid_Core_V
 					return $value;
 			}
 		}
-		if ($this->tagName == 'select')
-		{
+		if ($this->tagName == 'select') {
 			preg_match_all('/selected="selected"\>([^\<]+)/', $this->content, $selected);
 			return implode(', ', $selected[1]);
 		}

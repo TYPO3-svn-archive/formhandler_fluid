@@ -27,12 +27,11 @@
  * @subpackage Core
  * @author	Christian Opitz <co@netzelf.de>
  */
-class Tx_FormhandlerFluid_View_TemplateView extends Tx_Fluid_View_TemplateView
-{
+class Tx_FormhandlerFluid_View_TemplateView extends Tx_Fluid_View_TemplateView {
+
 	protected static $parserCache = array();
 	
-	/*public function __construct()
-	{
+	/*public function __construct() {
 		$this->objectManager = t3lib_div::makeInstance('Tx_Fluid_Compatibility_ObjectManager');
 		$this->templateParser = t3lib_div::makeInstance('Tx_FormhandlerFluid_Core_This_Parser');
 		$this->templateParser->injectObjectManager($this->objectManager);
@@ -44,8 +43,7 @@ class Tx_FormhandlerFluid_View_TemplateView extends Tx_Fluid_View_TemplateView
 	 * @return Tx_Fluid_Core_Parser_Configuration
 	 * @author Karsten Dambekalns <karsten@typo3.org>
 	 */
-	protected function buildParserConfiguration()
-	{
+	protected function buildParserConfiguration() {
 		$this->interceptor = $this->objectManager->get('Tx_FormhandlerFluid_Core_Parser_Interceptor');		
 		$parserConfiguration = parent::buildParserConfiguration();
 		$parserConfiguration->addInterceptor($this->interceptor);
@@ -59,17 +57,14 @@ class Tx_FormhandlerFluid_View_TemplateView extends Tx_Fluid_View_TemplateView
 	 * @return Tx_Fluid_Core_Parser_ParsedTemplateInterface the parsed template tree
 	 * @throws Tx_Fluid_View_Exception_InvalidTemplateResourceException
 	 */
-	protected function parseTemplate($templatePathAndFilename)
-	{
-		if (!self::$parserCache[$templatePathAndFilename])
-		{
+	protected function parseTemplate($templatePathAndFilename) {
+		if (!self::$parserCache[$templatePathAndFilename]) {
 			self::$parserCache[$templatePathAndFilename] = parent::parseTemplate($templatePathAndFilename);
 		}
 		return self::$parserCache[$templatePathAndFilename];
 	}
 	
-	public function hasTemplate()
-	{
+	public function hasTemplate() {
 		try {
 			parent::resolveTemplatePathAndFilename(func_get_arg(0));
 			return true;

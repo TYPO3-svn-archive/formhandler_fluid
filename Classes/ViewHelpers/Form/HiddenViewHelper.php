@@ -26,8 +26,8 @@
  * @subpackage View_Helpers
  * @author	Christian Opitz <co@netzelf.de>
  */
-class Tx_FormhandlerFluid_ViewHelpers_Form_HiddenViewHelper extends Tx_Fluid_ViewHelpers_Form_HiddenViewHelper
-{
+class Tx_FormhandlerFluid_ViewHelpers_Form_HiddenViewHelper extends Tx_Fluid_ViewHelpers_Form_HiddenViewHelper {
+
 	// == fixing fluid bugs ==
 	
 	/* (non-PHPdoc)

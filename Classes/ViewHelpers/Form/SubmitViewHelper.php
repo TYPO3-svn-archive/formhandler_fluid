@@ -28,15 +28,14 @@
  * @subpackage View_Helpers
  * @author	Christian Opitz <co@netzelf.de>
  */
-class Tx_FormhandlerFluid_ViewHelpers_Form_SubmitViewHelper extends Tx_Fluid_ViewHelpers_Form_SubmitViewHelper
-{
+class Tx_FormhandlerFluid_ViewHelpers_Form_SubmitViewHelper extends Tx_Fluid_ViewHelpers_Form_SubmitViewHelper {
+
 	/**
 	 * Renders the submit button.
 	 *
 	 * @return string
 	 */
-	public function render()
-	{
+	public function render() {
 		$this->tag->addAttribute('type', 'submit');
 		$this->tag->addAttribute('value', $this->getValue());
 		$this->tag->addAttribute('name', $this->getName());
@@ -49,11 +48,9 @@ class Tx_FormhandlerFluid_ViewHelpers_Form_SubmitViewHelper extends Tx_Fluid_Vie
 	 * 
 	 * @return string The name for the desired action 
 	 */
-	protected function getName()
-	{
+	protected function getName() {
 		$name = array('step');
-		switch ($this->arguments['action'])
-		{
+		switch ($this->arguments['action']) {
 			case 'reload':
 				$name['step']	= Tx_Formhandler_Session::get('currentStep');
 				$name['action']	= 'reload';

@@ -22,8 +22,7 @@
  * @package	Tx_Formhandler
  * @subpackage	ViewHelpers
  */
-class Tx_FormhandlerFluid_ViewHelpers_TranslateViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper
-{	
+class Tx_FormhandlerFluid_ViewHelpers_TranslateViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {	
 	/**
 	 * Translate a given key or use the tag body as default.
 	 *
@@ -33,10 +32,8 @@ class Tx_FormhandlerFluid_ViewHelpers_TranslateViewHelper extends Tx_Fluid_Core_
 	 * @param array $arguments Arguments to be replaced in the resulting string
 	 * @return string The translated key or tag body if key doesn't exist
 	 */
-	public function render($key, $default = NULL, $htmlEscape = TRUE, array $arguments = NULL)
-	{
-		foreach((array) Tx_Formhandler_Globals::$langFiles as $langFile)
-		{
+	public function render($key, $default = NULL, $htmlEscape = TRUE, array $arguments = NULL) {
+		foreach((array) Tx_Formhandler_Globals::$langFiles as $langFile) {
 			$temp = trim($GLOBALS['TSFE']->sL('LLL:' . $langFile . ':' . $key));
 			if(strlen($temp) > 0) {
 				$message = $temp;
