@@ -43,7 +43,7 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 	 * @see Tx_FormhandlerFluid_StaticFuncs#readTemplateFile()
 	 */
 	protected function init() {		
-		$this->templateFile = "-\n-";
+		$this->templateFile = "###TEMPLATE_FORM1###-\n-###TEMPLATE_FORM1###";
 		parent::init();
 		
 		if (!$this->view instanceof Tx_FormhandlerFluid_View_Form) {
