@@ -89,7 +89,7 @@ class Tx_FormhandlerFluid_Core_ViewHelper_FormTagBuilder extends Tx_Fluid_Core_V
 			}
 		}
 		if ($this->tagName == 'select') {
-			preg_match_all('/selected="selected"\>([^\<]+)/', $this->content, $selected);
+			preg_match_all('/selected="selected"[^\>]*\>([^\<]+)/', $this->content, $selected);
 			return implode(', ', $selected[1]);
 		}
 	}

@@ -17,7 +17,7 @@
 /**
  * We need very few changes to some formhandler-mechanisms 
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Christian Opitz <co@netzelf.de>
  * @package	Tx_Formhandler
  * @subpackage	Controller
  */
@@ -115,7 +115,7 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 	protected function getStepInformation() {
 		$this->findCurrentStep();
 		
-		$this->lastStep = Tx_Formhandler_Session::get('currentStep');
+		$this->lastStep = Tx_FormhandlerFluid_Util_Div::getSessionValue('currentStep');
 		if(!$this->lastStep) {
 			$this->lastStep = 1;
 		}
@@ -132,7 +132,7 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 		$this->totalSteps = count($steps);
 		$this->stepForms = $steps;
 		
-		Tx_Formhandler_StaticFuncs::debugMessage('total_steps', $this->totalSteps);
+		Tx_Formhandler_StaticFuncs::debugMessage('total_steps', array($this->totalSteps));
 	}
 	
 	public function getSettings() {
@@ -144,7 +144,6 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 		// Override settings
 		foreach ((array) $settings['finishers.'] as $i => $finisher) {
 			if (in_array($finisher['class'], array('Tx_Formhandler_Finisher_Mail', 'Finisher_Mail'))) {
-
 				$settings['finishers.'][$i]['config.']['view'] = 'Tx_FormhandlerFluid_View_Mail';
 			}
 		}
@@ -160,7 +159,7 @@ class Tx_FormhandlerFluid_Controller_Form extends Tx_Formhandler_Controller_Form
 	 */
 	protected function setViewSubpart($step) {
 		$this->view->setAction($this->stepForms[$step-1]);
-		if(intval($step) === intval(Tx_Formhandler_Session::get('lastStep')) + 1) {
+		if(intval($step) === intval(Tx_FormhandlerFluid_Util_Div::getSessionValue('lastStep')) + 1) {
 			$this->finished = TRUE;
 		}
 	}

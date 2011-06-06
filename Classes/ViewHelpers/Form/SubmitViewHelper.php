@@ -52,16 +52,16 @@ class Tx_FormhandlerFluid_ViewHelpers_Form_SubmitViewHelper extends Tx_Fluid_Vie
 		$name = array('step');
 		switch ($this->arguments['action']) {
 			case 'reload':
-				$name['step']	= Tx_Formhandler_Session::get('currentStep');
+				$name['step']	= Tx_FormhandlerFluid_Util_Div::getSessionValue('currentStep');
 				$name['action']	= 'reload';
 				break;
 			case 'prev':
-				$name['step']	= Tx_Formhandler_Session::get('currentStep') - 1;
+				$name['step']	= Tx_FormhandlerFluid_Util_Div::getSessionValue('currentStep') - 1;
 				$name['action']	= 'prev';
 				break;
 			case 'next':
 			default:
-				$name['step']	= Tx_Formhandler_Session::get('currentStep') + 1;
+				$name['step']	= Tx_FormhandlerFluid_Util_Div::getSessionValue('currentStep') + 1;
 				$name['action']	= 'next';
 		}		
 		return $this->prefixFieldName(implode('-', $name));

@@ -88,4 +88,17 @@ class Tx_FormhandlerFluid_Util_Div {
 		}
 		return $array;
 	}
+	
+	/**
+	 * Since r46243 there's no Tx_Formhandler_Session anymore
+	 * @see http://forge.typo3.org/projects/extension-formhandler/repository/revisions/46243
+	 * 
+	 * @param string $key
+	 */
+	public static function getSessionValue($key) {
+		if (class_exists('Tx_Formhandler_Session')) {
+			return Tx_FormhandlerFluid_Util_Div::getSessionValue($key);
+		}
+		return Tx_Formhandler_Globals::$session->get($key);
+	}
 }

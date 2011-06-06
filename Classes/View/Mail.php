@@ -45,8 +45,6 @@ class Tx_FormhandlerFluid_View_Mail extends Tx_FormhandlerFluid_View_Form {
 		if ($this->hasTemplate()) {
     		$result = parent::render($config['suffix'] != 'plain' ? $this->checkBinaryCrLf($gp) : $gp, array());
 		}
-		
-		$this->controllerContext->getRequest()->setFormat('html');
 		return trim($result);
 	}
 	

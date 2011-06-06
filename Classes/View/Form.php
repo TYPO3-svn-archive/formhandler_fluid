@@ -52,7 +52,7 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView {
 		$this->view->setControllerContext($this->controllerContext);
 		
 		// Set the view paths (usually done in controller but this view is not
-		// alway called from an controller (f.i. Tx_FormhandlerFluid_View_FluidMail)
+		// always called from a controller (f.i. Tx_FormhandlerFluid_View_FluidMail)
 		$this->settings = Tx_Formhandler_Globals::$settings;
 		if (!empty($this->settings['templateRoot'])) {
 			$path = Tx_Formhandler_StaticFuncs::resolvePath($this->settings['templateRoot']);
@@ -244,9 +244,9 @@ class Tx_FormhandlerFluid_View_Form extends Tx_Formhandler_AbstractView {
 				'fieldNamePrefix'	=> Tx_Formhandler_Globals::$formValuesPrefix,
 				'ip'				=> t3lib_div::getIndpEnv('REMOTE_ADDR'),
 				'pid'				=> $GLOBALS['TSFE']->id,
-				'currentStep'		=> Tx_Formhandler_Session::get('currentStep'),
-				'totalSteps'		=> Tx_Formhandler_Session::get('totalSteps'),
-				'lastStep'			=> Tx_Formhandler_Session::get('lastStep'),
+				'currentStep'		=> Tx_FormhandlerFluid_Util_Div::getSessionValue('currentStep'),
+				'totalSteps'		=> Tx_FormhandlerFluid_Util_Div::getSessionValue('totalSteps'),
+				'lastStep'			=> Tx_FormhandlerFluid_Util_Div::getSessionValue('lastStep'),
 				// f:url(absolute:1) does not work correct :(
 				'baseUrl'			=> t3lib_div::locationHeaderUrl('')
 			)
